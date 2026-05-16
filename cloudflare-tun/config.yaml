@@ -1,0 +1,32 @@
+name: Cloudflare Tunnel Manager
+description: Expose multiple local services via Cloudflare Tunnel with automatic DNS configuration
+version: "1.0.0"
+slug: cloudflare_tun
+homeassistant: "2023.1.0"
+url: https://github.com/rede-analista/addon-cloudflare-tun
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+startup: application
+boot: auto
+map:
+  - data:rw
+options:
+  api_token: ""
+  account_id: ""
+  tunnel_name: "ha-tunnel"
+  services:
+    - name: "Home Assistant"
+      hostname: "ha.example.com"
+      service: "http://homeassistant:8123"
+schema:
+  api_token: str
+  account_id: str
+  tunnel_name: str
+  services:
+    - name: str
+      hostname: str
+      service: str
