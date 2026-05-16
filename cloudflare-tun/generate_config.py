@@ -29,6 +29,9 @@ def main():
     for svc in services:
         lines.append(f"  - hostname: {svc['hostname']}")
         lines.append(f"    service: {svc['service']}")
+        if svc["service"].startswith("https://"):
+            lines.append("    originRequest:")
+            lines.append("      noTLSVerify: true")
     lines.append("  - service: http_status:404")
 
     with open(CONFIG_FILE, "w") as f:

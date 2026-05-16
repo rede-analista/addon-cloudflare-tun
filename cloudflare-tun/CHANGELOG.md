@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.6
+
+- Adicionado `noTLSVerify: true` automaticamente para serviços com URL `https://`
+  (evita erro de verificação de certificado na conexão interna do cloudflared ao serviço)
+
 ## 1.0.5
 
 - Correção: detecção de zona para ccTLDs de duas partes como `.com.br`, `.org.br`, `.net.br`
