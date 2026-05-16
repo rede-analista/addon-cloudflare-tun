@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8
+
+- Melhoria no tratamento de erros da API: exibe o corpo da resposta do Cloudflare no log (antes só mostrava o código HTTP)
+
 ## 1.0.7
 
 - Nova opção `private_networks`: expõe faixas de IP da rede local para clientes Cloudflare WARP

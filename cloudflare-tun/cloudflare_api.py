@@ -27,19 +27,37 @@ def api_get(token, path):
 
 def api_post(token, path, body):
     resp = requests.post(f"{CF_API}{path}", headers=headers(token), json=body)
-    resp.raise_for_status()
+    if not resp.ok:
+        try:
+            detail = resp.json()
+        except Exception:
+            detail = resp.text
+        print(f"ERROR {resp.status_code} POST {path}: {detail}", file=sys.stderr)
+        resp.raise_for_status()
     return resp.json()
 
 
 def api_patch(token, path, body):
     resp = requests.patch(f"{CF_API}{path}", headers=headers(token), json=body)
-    resp.raise_for_status()
+    if not resp.ok:
+        try:
+            detail = resp.json()
+        except Exception:
+            detail = resp.text
+        print(f"ERROR {resp.status_code} PATCH {path}: {detail}", file=sys.stderr)
+        resp.raise_for_status()
     return resp.json()
 
 
 def api_delete(token, path):
     resp = requests.delete(f"{CF_API}{path}", headers=headers(token))
-    resp.raise_for_status()
+    if not resp.ok:
+        try:
+            detail = resp.json()
+        except Exception:
+            detail = resp.text
+        print(f"ERROR {resp.status_code} DELETE {path}: {detail}", file=sys.stderr)
+        resp.raise_for_status()
     return resp.json()
 
 
