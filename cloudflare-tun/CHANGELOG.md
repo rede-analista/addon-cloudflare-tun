@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.7
+
+- Nova opção `private_networks`: expõe faixas de IP da rede local para clientes Cloudflare WARP
+- Rotas sincronizadas automaticamente via API (cria novas, remove as que saíram da config)
+- `warp-routing: enabled: true` adicionado automaticamente ao config do cloudflared quando private_networks estiver configurado
+
 ## 1.0.6
 
 - Adicionado `noTLSVerify: true` automaticamente para serviços com URL `https://`

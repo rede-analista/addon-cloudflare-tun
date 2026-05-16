@@ -16,6 +16,8 @@ def main():
         tunnel_id = f.read().strip()
 
     services = opts["services"]
+    private_networks = opts.get("private_networks", [])
+
     if not services:
         print("ERROR: No services configured.", file=sys.stderr)
         sys.exit(1)
@@ -24,8 +26,12 @@ def main():
         f"tunnel: {tunnel_id}",
         f"credentials-file: {CREDENTIALS_FILE}",
         "",
-        "ingress:",
     ]
+
+    if private_networks:
+        lines += ["warp-routing:", "  enabled: true", ""]
+
+    lines.append("ingress:")
     for svc in services:
         lines.append(f"  - hostname: {svc['hostname']}")
         lines.append(f"    service: {svc['service']}")

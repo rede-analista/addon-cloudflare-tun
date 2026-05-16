@@ -101,6 +101,32 @@ def get_or_create_tunnel(token, account_id, tunnel_name):
     return create_tunnel(token, account_id, tunnel_name)
 
 
+def sync_private_networks(token, account_id, tunnel_id, private_networks):
+    desired = {svc["cidr"]: svc["name"] for svc in private_networks}
+
+    data = api_get(token, f"/accounts/{account_id}/teamnet/routes?tunnel_id={tunnel_id}&is_deleted=false")
+    existing = {r["network"]: r for r in (data.get("result") or [])} if data["success"] else {}
+
+    for cidr, name in desired.items():
+        if cidr not in existing:
+            result = api_post(token, f"/accounts/{account_id}/teamnet/routes", {
+                "network": cidr,
+                "tunnel_id": tunnel_id,
+                "comment": name
+            })
+            if result["success"]:
+                print(f"  Route {cidr} ({name}): created")
+            else:
+                print(f"  Route {cidr}: ERROR {result['errors']}", file=sys.stderr)
+        else:
+            print(f"  Route {cidr} ({name}): already exists")
+
+    for cidr, route in existing.items():
+        if cidr not in desired:
+            api_delete(token, f"/accounts/{account_id}/teamnet/routes/{route['id']}")
+            print(f"  Route {cidr}: removed (not in config)")
+
+
 def ensure_dns_record(token, zone_id, hostname, tunnel_id):
     cname_target = f"{tunnel_id}.cfargotunnel.com"
     data = api_get(token, f"/zones/{zone_id}/dns_records?type=CNAME&name={hostname}")
@@ -148,7 +174,12 @@ def main():
             zone_cache[domain] = get_zone_id(token, hostname)
         ensure_dns_record(token, zone_cache[domain], hostname, tunnel_id)
 
-    print(f"Cloudflare configured: {len(services)} service(s) ready.")
+    private_networks = opts.get("private_networks", [])
+    if private_networks:
+        print("Configuring private networks...")
+        sync_private_networks(token, account_id, tunnel_id, private_networks)
+
+    print(f"Cloudflare configured: {len(services)} service(s), {len(private_networks)} private network(s) ready.")
 
 
 if __name__ == "__main__":
