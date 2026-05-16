@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2
+
+- Correção: shebang do run.sh trocado de `with-contenv bashio` para `bash`
+  (with-contenv no s6-overlay v3 chama s6-overlay-suexec que só roda como PID 1)
+
 ## 1.0.1
 
 - Correção: run.sh registrado como serviço s6 em vez de CMD do Docker

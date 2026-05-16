@@ -1,18 +1,10 @@
-#!/usr/bin/with-contenv bashio
+#!/usr/bin/env bash
+set -e
 
-bashio::log.info "Cloudflare Tunnel Manager starting..."
+echo "INFO: Cloudflare Tunnel Manager starting..."
 
-python3 /cloudflare_api.py
-if [ $? -ne 0 ]; then
-    bashio::log.error "Failed to configure Cloudflare. Check your api_token and account_id."
-    exit 1
-fi
+python3 /cloudflare_api.py || { echo "ERROR: Cloudflare API configuration failed. Check api_token and account_id."; exit 1; }
+python3 /generate_config.py || { echo "ERROR: Config generation failed."; exit 1; }
 
-python3 /generate_config.py
-if [ $? -ne 0 ]; then
-    bashio::log.error "Failed to generate cloudflared config."
-    exit 1
-fi
-
-bashio::log.info "Starting cloudflared..."
+echo "INFO: Starting cloudflared..."
 exec cloudflared tunnel --no-autoupdate --config /tmp/cloudflared.yml run
