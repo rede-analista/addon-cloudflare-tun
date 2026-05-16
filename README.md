@@ -4,11 +4,29 @@ Home Assistant addon to expose multiple local services via Cloudflare Tunnel wit
 
 ## Requirements
 
-- A domain managed by Cloudflare
-- A Cloudflare API Token with permissions:
-  - **Account > Cloudflare Tunnel: Edit**
-  - **Zone > DNS: Edit** (for each zone you use)
-- Your Cloudflare Account ID (visible in the dashboard sidebar)
+- A domain managed by Cloudflare DNS
+- A Cloudflare API Token (see below)
+- Your Cloudflare Account ID
+
+## Creating the API Token
+
+1. Go to [https://dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)
+2. Click **Create Token**
+3. Click **Create Custom Token**
+4. Name it (e.g. `ha-tunnel-manager`)
+5. Under **Permissions**, add:
+   - `Account` > `Cloudflare Tunnel` > **Edit**
+   - `Zone` > `DNS` > **Edit**
+6. Under **Account Resources**, select your account
+7. Under **Zone Resources**, select **All zones** (or specific zones)
+8. Click **Continue to summary** > **Create Token**
+9. Copy the token — it is shown only once
+
+## Finding your Account ID
+
+1. Go to [https://dash.cloudflare.com](https://dash.cloudflare.com)
+2. Select any domain
+3. On the right sidebar, scroll down to **API** > copy the **Account ID**
 
 ## Configuration
 
