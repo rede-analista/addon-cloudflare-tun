@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+- Correção: run.sh registrado como serviço s6 em vez de CMD do Docker
+  (resolvia erro "can only run as pid 1" ao iniciar o add-on)
+
 ## 1.0.0
 
 - Initial release
