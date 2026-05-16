@@ -1,7 +1,7 @@
 ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM ${BUILD_FROM}
 
-RUN apk add --no-cache python3 py3-pip curl
+RUN apk add --no-cache python3 py3-pip curl bash
 
 RUN pip3 install requests --break-system-packages 2>/dev/null || pip3 install requests
 
@@ -17,8 +17,10 @@ RUN case "${BUILD_ARCH}" in \
       -o /usr/local/bin/cloudflared && \
     chmod +x /usr/local/bin/cloudflared
 
-COPY run.sh /etc/services.d/cloudflare-tun/run
+COPY run.sh /
 COPY cloudflare_api.py /
 COPY generate_config.py /
 
-RUN chmod +x /etc/services.d/cloudflare-tun/run
+RUN chmod +x /run.sh
+
+CMD ["/run.sh"]

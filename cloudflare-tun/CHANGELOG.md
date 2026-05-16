@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3
+
+- Correção: base image trocada de `ghcr.io/home-assistant/amd64-base` para `alpine:3.19`
+  (a imagem base do HA tem s6-overlay com ENTRYPOINT /init, causando conflito de PID 1)
+- Volta ao padrão CMD ["/run.sh"] igual ao SMCR_HA
+
 ## 1.0.2
 
 - Correção: shebang do run.sh trocado de `with-contenv bashio` para `bash`

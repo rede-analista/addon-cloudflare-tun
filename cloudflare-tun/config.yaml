@@ -1,6 +1,6 @@
 name: Cloudflare Tunnel Manager
 description: Expose multiple local services via Cloudflare Tunnel with automatic DNS configuration
-version: "1.0.2"
+version: "1.0.3"
 slug: cloudflare_tun
 homeassistant: "2023.1.0"
 url: https://github.com/rede-analista/addon-cloudflare-tun
