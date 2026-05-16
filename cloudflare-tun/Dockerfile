@@ -17,10 +17,8 @@ RUN case "${BUILD_ARCH}" in \
       -o /usr/local/bin/cloudflared && \
     chmod +x /usr/local/bin/cloudflared
 
-COPY run.sh /
+COPY run.sh /etc/services.d/cloudflare-tun/run
 COPY cloudflare_api.py /
 COPY generate_config.py /
 
-RUN chmod +x /run.sh
-
-CMD ["/run.sh"]
+RUN chmod +x /etc/services.d/cloudflare-tun/run
