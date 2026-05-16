@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+- Validação do campo account_id com mensagem de erro clara quando email é fornecido no lugar do ID hexadecimal
+
 ## 1.0.3
 
 - Correção: base image trocada de `ghcr.io/home-assistant/amd64-base` para `alpine:3.19`

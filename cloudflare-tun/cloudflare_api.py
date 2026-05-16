@@ -125,6 +125,11 @@ def main():
     tunnel_name = opts["tunnel_name"]
     services = opts["services"]
 
+    if "@" in account_id or " " in account_id or len(account_id) < 20:
+        print("ERROR: 'account_id' parece inválido. Deve ser o ID hexadecimal da conta (32 chars), não o email.", file=sys.stderr)
+        print("Acesse dash.cloudflare.com → selecione um domínio → barra lateral direita → 'ID da Conta'.", file=sys.stderr)
+        sys.exit(1)
+
     tunnel_id = get_or_create_tunnel(token, account_id, tunnel_name)
 
     with open(TUNNEL_ID_FILE, "w") as f:
