@@ -1,65 +1,65 @@
 # addon-cloudflare-tun
 
-Home Assistant addon to expose multiple local services via Cloudflare Tunnel with automatic DNS configuration.
+Add-on para Home Assistant que expõe múltiplos serviços locais via Cloudflare Tunnel com configuração automática de DNS.
 
-## Requirements
+## Pré-requisitos
 
-- A domain managed by Cloudflare DNS
-- A Cloudflare API Token (see below)
-- Your Cloudflare Account ID
+- Um domínio gerenciado pelo DNS da Cloudflare
+- Um API Token da Cloudflare (veja abaixo)
+- O ID da sua conta Cloudflare
 
-## Creating the API Token
+## Criando o API Token
 
-1. Go to [https://dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)
-2. Click **Create Token**
-3. Click **Create Custom Token**
-4. Name it (e.g. `ha-tunnel-manager`)
-5. Under **Permissions**, add:
-   - `Account` > `Cloudflare Tunnel` > **Edit**
-   - `Zone` > `DNS` > **Edit**
-6. Under **Account Resources**, select your account
-7. Under **Zone Resources**, select **All zones** (or specific zones)
-8. Click **Continue to summary** > **Create Token**
-9. Copy the token — it is shown only once
+1. Acesse [https://dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)
+2. Clique em **Criar Token**
+3. Clique em **Criar Token Personalizado**
+4. Dê um nome (ex: `ha-tunnel-manager`)
+5. Em **Permissões**, adicione:
+   - `Conta` > `Cloudflare Tunnel` > **Editar**
+   - `Zona` > `DNS` > **Editar**
+6. Em **Recursos da Conta**, selecione sua conta
+7. Em **Recursos de Zona**, selecione **Todas as zonas** (ou zonas específicas)
+8. Clique em **Continuar para o resumo** > **Criar Token**
+9. Copie o token — ele é exibido apenas uma vez
 
-## Finding your Account ID
+## Encontrando o Account ID
 
-1. Go to [https://dash.cloudflare.com](https://dash.cloudflare.com)
-2. Select any domain
-3. On the right sidebar, scroll down to **API** > copy the **Account ID**
+1. Acesse [https://dash.cloudflare.com](https://dash.cloudflare.com)
+2. Selecione qualquer domínio
+3. Na barra lateral direita, role até **API** e copie o **ID da Conta**
 
-## Configuration
+## Configuração
 
-| Option | Description |
-|--------|-------------|
-| `api_token` | Cloudflare API Token |
-| `account_id` | Cloudflare Account ID |
-| `tunnel_name` | Name for the tunnel (created automatically) |
-| `services` | List of services to expose |
+| Opção | Descrição |
+|-------|-----------|
+| `api_token` | API Token da Cloudflare |
+| `account_id` | ID da conta Cloudflare |
+| `tunnel_name` | Nome do túnel (criado automaticamente) |
+| `services` | Lista de serviços a expor |
 
-Each service entry:
+Cada entrada em `services`:
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| `name` | Friendly name | `Home Assistant` |
-| `hostname` | Public hostname | `ha.example.com` |
-| `service` | Internal URL | `http://homeassistant:8123` |
+| Campo | Descrição | Exemplo |
+|-------|-----------|---------|
+| `name` | Nome amigável | `Home Assistant` |
+| `hostname` | Hostname público | `ha.exemplo.com.br` |
+| `service` | URL interna | `http://homeassistant:8123` |
 
-## How it works
+## Como funciona
 
-On startup the addon:
-1. Creates the Cloudflare Tunnel (or reuses it if credentials are saved in `/data`)
-2. Creates/updates a CNAME DNS record for each service pointing to the tunnel
-3. Generates the cloudflared config and starts the tunnel
+Na inicialização o add-on:
+1. Cria o túnel Cloudflare (ou reutiliza se as credenciais já estiverem salvas em `/data`)
+2. Cria ou atualiza o registro CNAME no DNS para cada serviço apontando para o túnel
+3. Gera o config do cloudflared e inicia o túnel
 
-Tunnel credentials are persisted in `/data/tunnel-credentials.json` and reused on restart.
+As credenciais do túnel são salvas em `/data/tunnel-credentials.json` e reutilizadas nos reinícios.
 
-## Troubleshooting
+## Instalação
+
+Adicione a URL deste repositório na loja de add-ons do Home Assistant:
+`https://github.com/rede-analista/addon-cloudflare-tun`
+
+## Solução de problemas
 
 **"Tunnel already exists but no local credentials found"**
-Delete the tunnel from the Cloudflare dashboard (Zero Trust > Networks > Tunnels) and restart the addon.
-
-## Installation
-
-Add this repository URL to Home Assistant Add-on Store:
-`https://github.com/rede-analista/addon-cloudflare-tun`
+Delete o túnel pelo painel da Cloudflare em **Zero Trust > Redes > Túneis** e reinicie o add-on.
