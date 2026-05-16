@@ -45,12 +45,16 @@ def api_delete(token, path):
 
 def get_zone_id(token, hostname):
     parts = hostname.split(".")
-    domain = ".".join(parts[-2:])
-    data = api_get(token, f"/zones?name={domain}")
-    if not data["success"] or not data["result"]:
-        print(f"ERROR: Zone not found for domain '{domain}'. Ensure it is managed by this Cloudflare account.", file=sys.stderr)
-        sys.exit(1)
-    return data["result"][0]["id"]
+    # Tenta 2 partes (ex: example.com) e depois 3 (ex: pensenet.com.br)
+    for n in [2, 3]:
+        if len(parts) < n:
+            continue
+        domain = ".".join(parts[-n:])
+        data = api_get(token, f"/zones?name={domain}")
+        if data["success"] and data["result"]:
+            return data["result"][0]["id"]
+    print(f"ERROR: Zone não encontrada para '{hostname}'. Verifique se o domínio está gerenciado por esta conta Cloudflare.", file=sys.stderr)
+    sys.exit(1)
 
 
 def verify_tunnel(token, account_id, tunnel_id):

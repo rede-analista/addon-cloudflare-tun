@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.5
+
+- Correção: detecção de zona para ccTLDs de duas partes como `.com.br`, `.org.br`, `.net.br`
+  (o código tentava apenas as últimas 2 partes do hostname, extraindo `com.br` em vez de `pensenet.com.br`)
+- Logs ordenados corretamente com Python unbuffered (-u)
+
 ## 1.0.4
 
 - Validação do campo account_id com mensagem de erro clara quando email é fornecido no lugar do ID hexadecimal
